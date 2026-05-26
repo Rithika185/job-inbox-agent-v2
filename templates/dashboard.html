@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Dashboard · JobInboxAgent</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--green:#00ff88;--green-dim:#00ff8833;--green-glow:#00ff8866;--text:#e2e8f0;--muted:#64748b;--mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.card{position:relative;z-index:1;max-width:480px;width:100%;text-align:center}
+.status{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;border:1px solid var(--green-dim);padding:8px 20px;margin-bottom:32px;color:var(--green)}
+.dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:40px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.user{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:40px}
+.info{background:var(--surface);border:1px solid var(--border);padding:24px;text-align:left;margin-bottom:24px}
+.info-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border:none}
+.info-label{color:var(--muted)}
+.info-val{color:var(--green)}
+.actions{display:flex;gap:12px}
+.btn{flex:1;font-family:var(--mono);font-size:12px;font-weight:700;padding:12px;border:none;cursor:pointer;letter-spacing:.05em;text-decoration:none;text-align:center;transition:all .2s}
+.btn-stop{background:transparent;color:#ff4466;border:1px solid #ff446633}
+.btn-stop:hover{background:#ff44661a}
+.btn-logout{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-logout:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="card">
+  {% if running %}
+  <div class="status"><div class="dot"></div>AGENT RUNNING</div>
+  {% else %}
+  <div class="status" style="color:var(--muted);border-color:#1e1e2e">AGENT STOPPED</div>
+  {% endif %}
+
+  <h1>You're all set!</h1>
+  <p class="user">{{ user }}</p>
+
+  <div class="info">
+    <div class="info-row"><span class="info-label">STATUS</span><span class="info-val">{{ "Running 24/7" if running else "Stopped" }}</span></div>
+    <div class="info-row"><span class="info-label">CHECKING EVERY</span><span class="info-val">5 minutes</span></div>
+    <div class="info-row"><span class="info-label">ALERTS VIA</span><span class="info-val">Telegram</span></div>
+    <div class="info-row"><span class="info-label">AI MODEL</span><span class="info-val">LLaMA 3.3 70B</span></div>
+  </div>
+
+  <div class="actions">
+    <a href="/stop" class="btn btn-stop">Stop Agent</a>
+    <a href="/logout" class="btn btn-logout">Logout</a>
+  </div>
+</div>
+</body>
+</html>
